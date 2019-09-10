@@ -163,7 +163,14 @@ however as $\tau_1$ which governs the redshift evolution is far from the correct
     \includegraphics[scale=0.4]{Figures/growth_too_high.pdf}
     \includegraphics[scale=0.4]{Figures/goodFit.pdf}
     \caption{Predicted 1D flux power spectra (dashed) for 4 different sets of likelihood
-    parameters, $\Theta$, overlaid on some mock data (solid lines with error bars).}
+    parameters, $\Theta$, overlaid on some mock data (solid lines with error bars) generated
+    in MP-Gadget.
+    The top left panel shows a randomly chosen point in likelihood space. In the top
+    right we show emulator calls for likelihood parameters with the correct $\tau_0$,
+    but a low $\tau_1$, resulting in insufficient redshift evolution of $\langle F\rangle$.
+    In the bottom left, we show another set of emulator calls for the correct $\tau_0$
+    but this time a $\tau_1$ that is too high. In the bottom right we show the emulator
+    calls for the correct $\tau_0$ and $\tau_1$ which match the data well at all redshifts.}
 \end{figure}
 
 \noindent In the bottom left figure, we show emulator calls for likelihood parameters
