@@ -81,7 +81,8 @@ thermal state of the IGM. We use the following parameters:
     \item $n_p$: the slope of the matter power spectrum around $k=0.7 \mathrm{Mpc}^{-1}$,
     \item $\alpha_p$: the running of the matter power spectrum around the same pivot 
     scale.
-    \item $\langle F\rangle$: the mean flux measured along a given simulation snapshot. 
+    \item $\langle F\rangle$: the mean flux measured along the lines of sight in
+     a given simulation snapshot. 
     This property is affected mainly by the intensity of the UV background and the 
     recombination rate, as well as the amount of clustering.
     \item $\sigma_T$: the thermal broadening scale (in velocity units). This quantifies 
@@ -108,21 +109,20 @@ pooled into one training set for the interpolation algorithm.
 
 \subsection{Likelihood space}
 The likelihood parameter space is where we run our sampler, and will be the parameters in 
-which we ultimately get constraints. These parameters are simply power laws in the 
-emulator parameters of the form:
+which we ultimately get constraints. In the case of the nuisance parameters, these
+parameters are simply power laws in the emulator parameters of the form:
 
 \begin{equation}
     f(z)=A\bigg(\frac{1+z}{1+z_\star}\bigg)^B
 \end{equation}
 
-\noindent where we swap $f(z)$ for any of the emulator parameters, and set the pivot 
+\noindent where we swap $f(z)$ for the relevant IGM parameter, with the pivot 
 redshift $z_\star=3$. We denote the likelihood parameters as $\Theta=\{ \Delta^2_\star, f_\star, n_\star, \alpha_\star, \tau_0, \tau_1, T_1, T_2, T_3, \gamma_0, \gamma_1, k_{F0}, k_{F1} \}$, where:
 
 \begin{itemize}
     \item $\Delta^2_\star$: which describes the amplitude of the linear power spectrum at 
     the pivot scale and redshift.
-    \item $f_\star$: the slope of the power law describing the redshift evolution of the 
-    linear power amplitude.
+    \item $f_\star$: the logarithmic growth rate around the pivot redshift
     \item $n_\star$: the slope of the power spectrum at the pivot scale and redshift,
     \item $\alpha_\star$: the running of the power spectrum at the pivot scale and redshift.
     \item  $\tau_0$ and $\tau_1$, which equivalently describe the amplitude and slope of $\langle F\rangle$ around $z=3$,
