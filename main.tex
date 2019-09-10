@@ -48,7 +48,7 @@ parameter spaces:
 
 
 \begin{itemize}
-    \item an \textit{emulator space} where we train a Gaussian Process to provide a 
+    \item an \textit{emulator space} where we train a Gaussian process to provide a 
     predicted 1D flux power spectrum for a given set of parameters that we believe to be 
     closest to the data,
     \item a \textit{likelihood space} which describes the amplitude and redshift 
@@ -87,7 +87,7 @@ thermal state of the IGM. We use the following parameters:
     \item $\sigma_T$: the thermal broadening scale (in velocity units). This quantifies 
     the effect of the instantaneous gas pressure on smoothing the small scale flux power 
     by measuring the temperature at mean density.
-    \item $\gamma$: the slope of the temperature-density power law.
+    \item $\gamma$: the slope of the temperature-density relation power law.
     \item $k_F$: the pressure smoothing scale. While the flux power along the line of 
     sight is dependent on the instantaneous gas pressure due to Doppler smoothing, there 
     is also a history-dependent smoothing scale caused by gas pressure\cite{Hui1997}\cite{Gnedin1998}.
@@ -120,7 +120,7 @@ redshift $z_\star=3$. We denote the likelihood parameters as $\Theta=\{ \Delta^2
 
 \begin{itemize}
     \item $\Delta^2_\star$: which describes the amplitude of the linear power spectrum at 
-    the pivot scale at $z=3$.
+    the pivot scale and redshift.
     \item $f_\star$: the slope of the power law describing the redshift evolution of the 
     linear power amplitude.
     \item $n_\star$: the slope of the power spectrum at the pivot scale and redshift,
@@ -138,14 +138,43 @@ parameters to use for each power law. The specific redshifts at which emulator c
 made are set by the data, and one advantage of our parametrisation is that this can be 
 set arbitrarily instead of being decided in advance.
 
-\subsection{Example: evaluating a likelihood}
-As an example likelihood evaluation, we consider a test case where we are only interested 
+\subsection{Example: maximising a likelihood}
+As an example likelihood maximisation, we consider a test case where we are only interested 
 in constraining the likelihood parameters $\tau_0$ and $\tau_1$, with data redshift bins 
-at $z=4,3,2$. Initially $\tau_0$ and $\tau_1$ are randomly chosen from within the prior 
+at $z=4,3,2$. These parameters govern the amplitude and redshift evolution of $\langle F\rangle$.
+The effect of this parameter is essentially just a rescaling of the overall amplitude of the flux
+power spectrum, as can be seen in the top right panel of Appendix A.
+Initially $\tau_0$ and $\tau_1$ are randomly chosen from within the prior 
 volume, leading to 3 emulator calls evaluating equation (2.1) at each redshift where we 
 have data. The likelihood evaluation is then the sum of the log likelihoods for each 
-emulator call.
+emulator call. This is shown in Fig. 1, where the mock data is shown in solid lines.
+In dashed lines we show the predicted flux power spectra for four different choices of
+$\tau_0$ and $\tau_1$. In the first case, we show the predicted P1D for a randomly selected
+$\tau_0$ and $\tau_1$, which is clearly a poor fit to the data. In the top right figure,
+we by hand fix $\tau_0$ to the correct value in the mock data, which results in the
+$z=3$ power spectra matching the data well. The data at other redshifts is a poor match
+however as $\tau_1$ which governs the redshift evolution is far from the correct value.
 
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.4]{Figures/random_likelihood.pdf}
+    \includegraphics[scale=0.4]{Figures/amp_correct.pdf}
+    \includegraphics[scale=0.4]{Figures/growth_too_high.pdf}
+    \includegraphics[scale=0.4]{Figures/goodFit.pdf}
+    \caption{Predicted 1D flux power spectra (dashed) for 4 different sets of likelihood
+    parameters, $\Theta$, overlaid on some mock data (solid lines with error bars).}
+\end{figure}
+
+\noindent In the bottom left figure, we show emulator calls for likelihood parameters
+where $\tau_0$ is still correct, however $\tau_1$ is now far too high instead of too low.
+In this case there is too much evolution in the mean flux, $\langle F\rangle$, which
+means the overall amplitude of the P1D changes too drastically. In the final, bottom right
+panel, we show the emulator calls for the correct values of $\tau_0$ and $\tau_1$, where
+there is a strong match between the emulator predictions and the data at all redshifts.
+This is a particularly intuitive example because of the way in which the P1D depends
+on $\langle F\rangle$, but the principle can be extended to all other parameters and
+a larger number of redshift bins.
 
 \section{Comparison with previous approaches}
 
@@ -162,7 +191,7 @@ emulator call.
     \includegraphics[scale=0.47]{Figures/256_kF_Mpc.pdf}
     \includegraphics[scale=0.47]{Figures/256_gamma.pdf}
     \caption{Dependence of the P1D on the different emulator parameters. Predictions are 
-    made using a Gaussian process emulator trained on ~6000 models. NB that we have not 
+    made using a Gaussian process emulator trained on $\sim6000$ models. NB that we have not 
     yet varied the slope ($n_p$) or running ($\alpha_p$) of the linear power spectrum in 
     our simulation suites, so do not include them here as emulated parameters.}
 \end{figure}
