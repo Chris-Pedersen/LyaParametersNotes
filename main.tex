@@ -24,14 +24,17 @@
 \affiliation[a]{Department of Physics and Astronomy, University College London, Gower Street, London, United Kingdom}
 \emailAdd{chrisp@star.ucl.ac.uk}
 
-\abstract{Set of notes discussing parametrisations of an emulator for cosmology from the Lyman-$\alpha$ forest.}
+\abstract{Set of notes discussing parametrisations of an emulator for cosmology from 
+the Lyman-$\alpha$ forest. This is meant primarily as an intituive introduction to
+our parametrisation rather than a discussion of the technical details,
+some of which will be included in Appendix C.}
 \begin{document}
 \maketitle
 
 \section{Introduction}
 Constraining parameters of a cosmological model requires a large number of theoretical 
 predictions to compare to observational data. In the case of the Lyman-$\alpha$ (\lya) 
-forest, these theoretical predictions are computationally expensive which makes a 
+forest, generating these theoretical predictions are computationally expensive which makes a 
 brute-force approach unfeasible. Interpolation schemes have therefore been proposed where 
 theoretical predictions are made at certain points in parameter space, and these then are 
 used to infer the observable quantities for an arbitrary model.
@@ -88,7 +91,8 @@ thermal state of the IGM. We use the following parameters:
     \item $\sigma_T$: the thermal broadening scale (in velocity units). This quantifies 
     the effect of the instantaneous gas pressure on smoothing the small scale flux power 
     by measuring the temperature at mean density.
-    \item $\gamma$: the slope of the temperature-density relation power law.
+    \item $\gamma$: the relation between gas temperature and density is well
+    approximated by a power law, where the exponent to this power law is $\gamma-1$.
     \item $k_F$: the pressure smoothing scale. While the flux power along the line of 
     sight is dependent on the instantaneous gas pressure due to Doppler smoothing, there 
     is also a history-dependent smoothing scale caused by gas pressure\cite{Hui1997}\cite{Gnedin1998}.
@@ -108,8 +112,8 @@ now from $\Lambda$CDM parameters and redshift, models from different simulations
 pooled into one training set for the interpolation algorithm.
 
 \subsection{Likelihood space}
-The likelihood parameter space is where we run our sampler, and will be the parameters in 
-which we ultimately get constraints. In the case of the nuisance parameters, these
+The likelihood parameter space is where we run our sampler, and these are the parameters 
+for which we ultimately get constraints. In the case of the nuisance parameters, these
 parameters are simply power laws in the emulator parameters of the form:
 
 \begin{equation}
@@ -149,7 +153,7 @@ volume, leading to 3 emulator calls evaluating equation (2.1) at each redshift w
 have data. The likelihood evaluation is then the sum of the log likelihoods for each 
 emulator call. This is shown in Fig. 1, where the mock data is shown in solid lines.
 In dashed lines we show the predicted flux power spectra for four different choices of
-$\tau_0$ and $\tau_1$. In the first case, we show the predicted P1D for a randomly selected
+$\tau_0$ and $\tau_1$. In the first case (top left), we show the predicted P1D for a randomly selected
 $\tau_0$ and $\tau_1$, which is clearly a poor fit to the data. In the top right figure,
 we by hand fix $\tau_0$ to the correct value in the mock data, which results in the
 $z=3$ power spectra matching the data well. The data at other redshifts is a poor match
