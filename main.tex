@@ -68,7 +68,7 @@ Due to the fact that the universe is very close to Einstein-de-Sitter in the rel
 redshfit range $(5>z>2)$, the growth factor, $D(z)$ and the evolution of the Hubble 
 expansion rate, $H(z)$, are close to independent of cosmology. The \lyaf is also 
 sensitive to only a small range of length scales within this redshift range 
-(approximately $0.1 \mathrm{Mpc}^{-1} < k < 2 \mathrm{Mpc}^{-1}$), meaning that the large 
+(approximately $0.1 \mathrm{Mpc}^{-1} < k < 10 \mathrm{Mpc}^{-1}$), meaning that the large 
 scale shape of the power spectrum also has no influence on the \lyaf. Given this, the 
 effect of changing various $\Lambda$CDM parameters on the 1 dimensional flux power 
 spectrum (P1D) of the \lyaf are highly degenerate with one another. Many of these effects 
@@ -154,10 +154,7 @@ have data. The likelihood evaluation is then the sum of the log likelihoods for 
 emulator call. This is shown in Fig. 1, where the mock data is shown in solid lines.
 In dashed lines we show the predicted flux power spectra for four different choices of
 $\tau_0$ and $\tau_1$. In the first case (top left), we show the predicted P1D for a randomly selected
-$\tau_0$ and $\tau_1$, which is clearly a poor fit to the data. In the top right figure,
-we by hand fix $\tau_0$ to the correct value in the mock data, which results in the
-$z=3$ power spectra matching the data well. The data at other redshifts is a poor match
-however as $\tau_1$ which governs the redshift evolution is far from the correct value.
+$\tau_0$ and $\tau_1$, which is clearly a poor fit to the data.
 
 
 \begin{figure}[h]
@@ -177,7 +174,10 @@ however as $\tau_1$ which governs the redshift evolution is far from the correct
     calls for the correct $\tau_0$ and $\tau_1$ which match the data well at all redshifts.}
 \end{figure}
 
-\noindent In the bottom left figure, we show emulator calls for likelihood parameters
+\noindent In the top right figure, we by hand fix $\tau_0$ to the correct value in the mock data, which results in the $z=3$ power spectra matching the data well.
+The data at other redshifts is a poor match
+however as $\tau_1$ which governs the redshift evolution is far from the correct value.
+In the bottom left figure, we show emulator calls for likelihood parameters
 where $\tau_0$ is still correct, however $\tau_1$ is now far too high instead of too low.
 In this case there is too much evolution in the mean flux, $\langle F\rangle$, which
 means the overall amplitude of the P1D changes too drastically. In the final, bottom right
@@ -217,5 +217,7 @@ a larger number of redshift bins.
     simulation, in orange we show the best fit model using the likelihood models 
     described in section 2.2.}
 \end{figure}
+
+\section{Extensions}
 
 \end{document}
