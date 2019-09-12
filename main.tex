@@ -82,23 +82,21 @@ thermal state of the IGM. We use the following parameters:
     {-1}$. This scale is chosen as it is both a linear mode, and a length scale which is 
     measured well in the P1D of the \lyaf.
     \item $n_p$: the slope of the matter power spectrum around $k=0.7 \mathrm{Mpc}^{-1}$,
-    \item $\alpha_p$: the running of the matter power spectrum around the same pivot 
-    scale.
     \item $\langle F\rangle$: the mean flux measured along the lines of sight in
      a given simulation snapshot. 
     This property is affected mainly by the intensity of the UV background and the 
     recombination rate, as well as the amount of clustering.
-    \item $\sigma_T$: the thermal broadening scale (in velocity units). This quantifies 
-    the effect of the instantaneous gas pressure on smoothing the small scale flux power 
+    \item $\sigma_T$: the thermal broadening scale. This quantifies 
+    the effect of the instantaneous gas temperature on smoothing the small scale flux power 
     by measuring the temperature at mean density.
     \item $\gamma$: the relation between gas temperature and density is well
     approximated by a power law, where the exponent to this power law is $\gamma-1$.
     \item $k_F$: the pressure smoothing scale. While the flux power along the line of 
-    sight is dependent on the instantaneous gas pressure due to Doppler smoothing, there 
+    sight is dependent on the instantaneous gas temperature due to Doppler smoothing, there 
     is also a history-dependent smoothing scale caused by gas pressure\cite{Hui1997}\cite{Gnedin1998}.
 \end{itemize}
 
-\noindent We define our emulator parameter space as $\Phi=\{ \Delta^2_p,n_p,\alpha_p,\langle F\rangle,\sigma_T,\gamma,k_F \}$, and we refer to each P1D with an associated 
+\noindent We define our emulator parameter space as $\Phi=\{ \Delta^2_p,n_p,\langle F\rangle,\sigma_T,\gamma,k_F \}$, and we refer to each P1D with an associated 
 $\Phi$ as a \textit{model}. Note that we do not include redshift as a parameter, as we 
 propose that two flux power spectra at different redshifts but with the same $\Phi$ would 
 have indistinguishable flux power spectra at our current precision. This parametrisation 
@@ -107,9 +105,7 @@ that describe the state of the IGM, which we will consider nuisance parameters. 
 observational constraints on these IGM properties are available in \cite{Walther2018} and 
 can be used to motivate our priors. We note that one can modify the particle properties 
 of the simulation data in postprocessing to explore a wider range of $\langle F\rangle$ 
-and $\sigma_T$ models without running extra simulations. Since each model is decoupled 
-now from $\Lambda$CDM parameters and redshift, models from different simulations can be 
-pooled into one training set for the interpolation algorithm.
+and $\sigma_T$ models without running extra simulations.
 
 \subsection{Likelihood space}
 The likelihood parameter space is where we run our sampler, and these are the parameters 
@@ -142,6 +138,16 @@ parameters to use for each power law. The specific redshifts at which emulator c
 made are set by the data, and one advantage of our parametrisation is that this can be 
 set arbitrarily instead of being decided in advance.
 
+\subsection{Simulation space}
+These parameters are used to generate initial conditions and run the MP-Gadget simulations.
+We denote them $\Gamma=\{A_s, n_s, \Omega_\lambda, \Omega_\mathrm{b}, \Omega_\mathrm{c},h,
+z_\mathrm{reion},H_a, H_b\}$. The first six parameters are the standard parameters of
+$\Lambda$CDM. The remaining parameters control the evolution of the IGM -  $z_\mathrm{reion}$
+sets the median redshfit of reionisation, and $H_a$ and $H_b$ set the amplitude and density
+dependence of the gas heating. These final two parameters have the strongest
+effect on $\sigma_T$ and $\gamma$ respectively.
+
+
 \subsection{Example: maximising a likelihood}
 As an example likelihood maximisation, we consider a test case where we are only interested 
 in constraining the likelihood parameters $\tau_0$ and $\tau_1$, with data redshift bins 
@@ -165,7 +171,7 @@ $\tau_0$ and $\tau_1$, which is clearly a poor fit to the data.
     \includegraphics[scale=0.4]{Figures/goodFit.pdf}
     \caption{Predicted 1D flux power spectra (dashed) for 4 different sets of likelihood
     parameters, $\Theta$, overlaid on some mock data (solid lines with error bars) generated
-    in MP-Gadget.
+    in MP-Gadget, using the covariance matrices from \cite{PD2013}.
     The top left panel shows a randomly chosen point in likelihood space. In the top
     right we show emulator calls for likelihood parameters with the correct $\tau_0$,
     but a low $\tau_1$, resulting in insufficient redshift evolution of $\langle F\rangle$.
@@ -178,7 +184,7 @@ $\tau_0$ and $\tau_1$, which is clearly a poor fit to the data.
 The data at other redshifts is a poor match
 however as $\tau_1$ which governs the redshift evolution is far from the correct value.
 In the bottom left figure, we show emulator calls for likelihood parameters
-where $\tau_0$ is still correct, however $\tau_1$ is now far too high instead of too low.
+where $\tau_0$ is still correct, however $\tau_1$ is n  ow far too high instead of too low.
 In this case there is too much evolution in the mean flux, $\langle F\rangle$, which
 means the overall amplitude of the P1D changes too drastically. In the final, bottom right
 panel, we show the emulator calls for the correct values of $\tau_0$ and $\tau_1$, where
@@ -219,5 +225,8 @@ a larger number of redshift bins.
 \end{figure}
 
 \section{Extensions}
+We could also experiment with looking at the effect of a running of the spectral index,
+$\alpha$, by adding a relevant parameter to each of the paramter spaces and running simulations
+with varying $\alpha$.
 
 \end{document}
