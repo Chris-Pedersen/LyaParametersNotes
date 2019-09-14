@@ -109,22 +109,21 @@ and $\sigma_T$ models without running extra simulations.
 
 \subsection{Likelihood space}
 The likelihood parameter space is where we run our sampler, and these are the parameters 
-for which we ultimately get constraints. In the case of the nuisance parameters, these
-parameters are simply power laws in the emulator parameters of the form:
+for which we ultimately get constraints. In the case of the nuisance parameters,
+these are simply power laws in the emulator parameters of the form:
 
 \begin{equation}
     f(z)=A\bigg(\frac{1+z}{1+z_\star}\bigg)^B
 \end{equation}
 
 \noindent where we swap $f(z)$ for the relevant IGM parameter, with the pivot 
-redshift $z_\star=3$. We denote the likelihood parameters as $\Theta=\{ \Delta^2_\star, f_\star, n_\star, \alpha_\star, \tau_0, \tau_1, T_1, T_2, T_3, \gamma_0, \gamma_1, k_{F0}, k_{F1} \}$, where:
+redshift $z_\star=3$. We denote the likelihood parameters as
+$\Theta=\{ \Delta^2_\star, n_\star, \tau_0, \tau_1, T_1, T_2, T_3, \gamma_0, \gamma_1, k_{F0}, k_{F1} \}$, where:
 
 \begin{itemize}
     \item $\Delta^2_\star$: which describes the amplitude of the linear power spectrum at 
     the pivot scale and redshift.
-    \item $f_\star$: the logarithmic growth rate around the pivot redshift
     \item $n_\star$: the slope of the power spectrum at the pivot scale and redshift,
-    \item $\alpha_\star$: the running of the power spectrum at the pivot scale and redshift.
     \item  $\tau_0$ and $\tau_1$, which equivalently describe the amplitude and slope of $\langle F\rangle$ around $z=3$,
     \item  $T_1$, $T_2$, $T_3$ which describe the redshift evolution of the thermal 
     broadening scale, $\sigma_T$. The effect of He II reionisation on the IGM means that 
@@ -145,24 +144,12 @@ z_\mathrm{reion},H_a, H_b\}$. The first six parameters are the standard paramete
 $\Lambda$CDM. The remaining parameters control the evolution of the IGM -  $z_\mathrm{reion}$
 sets the median redshfit of reionisation, and $H_a$ and $H_b$ set the amplitude and density
 dependence of the gas heating. These final two parameters have the strongest
-effect on $\sigma_T$ and $\gamma$ respectively.
+effect on $\sigma_T$ and $\gamma$ respectively. For each simulation snapshot it is
+trivial to calculate the associated emulator space parameter, $\Delta_p$, using CAMB.
+However the inverse mapping is not unique and also requires a fiducial cosmology.
 
 
 \subsection{Example: maximising a likelihood}
-As an example likelihood maximisation, we consider a test case where we are only interested 
-in constraining the likelihood parameters $\tau_0$ and $\tau_1$, with data redshift bins 
-at $z=4,3,2$. These parameters govern the amplitude and redshift evolution of $\langle F\rangle$.
-The effect of this parameter is essentially just a rescaling of the overall amplitude of the flux
-power spectrum, as can be seen in the top right panel of Appendix A.
-Initially $\tau_0$ and $\tau_1$ are randomly chosen from within the prior 
-volume, leading to 3 emulator calls evaluating equation (2.1) at each redshift where we 
-have data. The likelihood evaluation is then the sum of the log likelihoods for each 
-emulator call. This is shown in Fig. 1, where the mock data is shown in solid lines.
-In dashed lines we show the predicted flux power spectra for four different choices of
-$\tau_0$ and $\tau_1$. In the first case (top left), we show the predicted P1D for a randomly selected
-$\tau_0$ and $\tau_1$, which is clearly a poor fit to the data.
-
-
 \begin{figure}[h]
     \centering
     \includegraphics[scale=0.4]{Figures/random_likelihood.pdf}
@@ -180,6 +167,20 @@ $\tau_0$ and $\tau_1$, which is clearly a poor fit to the data.
     calls for the correct $\tau_0$ and $\tau_1$ which match the data well at all redshifts.}
 \end{figure}
 
+As an example likelihood maximisation, we consider a test case where we are only interested 
+in constraining the likelihood parameters $\tau_0$ and $\tau_1$, with data redshift bins 
+at $z=4,3,2$. These parameters govern the amplitude and redshift evolution of $\langle F\rangle$.
+The effect of this parameter is essentially just a rescaling of the overall amplitude of the flux
+power spectrum, as can be seen in the top right panel of Appendix A.
+Initially $\tau_0$ and $\tau_1$ are randomly chosen from within the prior 
+volume, leading to 3 emulator calls evaluating equation (2.1) at each redshift where we 
+have data. The likelihood evaluation is then the sum of the log likelihoods for each 
+emulator call. This is shown in Fig. 1, where the mock data is shown in solid lines.
+In dashed lines we show the predicted flux power spectra for four different choices of
+$\tau_0$ and $\tau_1$. In the first case (top left), we show the predicted P1D for a randomly selected
+$\tau_0$ and $\tau_1$, which is clearly a poor fit to the data.
+
+
 \noindent In the top right figure, we by hand fix $\tau_0$ to the correct value in the mock data, which results in the $z=3$ power spectra matching the data well.
 The data at other redshifts is a poor match
 however as $\tau_1$ which governs the redshift evolution is far from the correct value.
@@ -194,7 +195,7 @@ on $\langle F\rangle$, but the principle can be extended to all other parameters
 a larger number of redshift bins.
 
 \section{Comparison with previous approaches}
-
+(Could add some text here comparing with Nathalie's approach?)
 \bibliographystyle{JHEP.bst}
 \bibliography{refs}
 \clearpage
@@ -209,8 +210,8 @@ a larger number of redshift bins.
     \includegraphics[scale=0.47]{Figures/256_gamma.pdf}
     \caption{Dependence of the P1D on the different emulator parameters. Predictions are 
     made using a Gaussian process emulator trained on $\sim6000$ models. NB that we have not 
-    yet varied the slope ($n_p$) or running ($\alpha_p$) of the linear power spectrum in 
-    our simulation suites, so do not include them here as emulated parameters.}
+    yet varied the slope ($n_p$) of the linear power spectrum in 
+    our simulation suites, so do not include it here as an emulated parameter.}
 \end{figure}
 
 \clearpage
@@ -224,7 +225,31 @@ a larger number of redshift bins.
     described in section 2.2.}
 \end{figure}
 
-\section{Extensions}
+\section{Extensions and unit conversions}
+Traditionally \lyaf data is presented in velocity units ($\rm{km}/s$), whereas in simulations
+quantities are measured in terms of Mpc. The conversion factor between these units is $H(z)/(1+z)$,
+and therefore requires a cosmological model. There are a few possible approaches to deal
+with this conversion. One is to convert all relevant quantities into $\rm{km}/s$ at the point
+of postprocessing the simulation using the $H(z)$ for that particular cosmology, and then
+work in velocity units in both the emulator and likelihood parameter spaces. A similar
+approach was taken in \cite{McDonald2005}, however the difficulty here is that the
+P1D measured at different redshifts and in different simulations will have different
+$k$ bins in velocity units. This creates an additional layer of complication in the training
+of an emulator to interpolate the P1D between different simulation points.
+Instead we measure all emulator quantities in units of Mpc using a fixed
+simulation box size, meaning that every P1D model has exactly the same $k$ bins. When the
+emulator calls are made for a likelihood evaluation, we adopt a fiducial cosmology to
+perform the conversion into velocity units which can be compared with the data.
+For the final analysis it will be necessary to introduce some parameters to describe
+some deviation of $H(z)$ and the growth rate from the fiducial cosmology.
+While the universe is close to
+Einstein de Sitter in the redshfit range $5>z>2$, it is not a perfect description,
+and there is a small variation in the growth rate depending on cosmology (on the order of
+$2\%$ over the range $0.4>\Omega_m > 0.2$ at $z=2$, which is where there is the highest
+sensitivity). This change in the growth rate affects the \lyaf through altering the
+velocities along the lines of sight (which will slightly modify the P1D), and changes
+the evolution of $\Delta_p$ as a function of redshift.
+
 We could also experiment with looking at the effect of a running of the spectral index,
 $\alpha$, by adding a relevant parameter to each of the paramter spaces and running simulations
 with varying $\alpha$.
