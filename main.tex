@@ -105,7 +105,8 @@ that describe the state of the IGM, which we will consider nuisance parameters. 
 observational constraints on these IGM properties are available in \cite{Walther2018} and 
 can be used to motivate our priors. We note that one can modify the particle properties 
 of the simulation data in postprocessing to explore a wider range of $\langle F\rangle$ 
-and $\sigma_T$ models without running extra simulations.
+and $\sigma_T$ models without running extra simulations. In appendix A we show the the
+effect of changing each of these parameters on the P1D.
 
 \subsection{Likelihood space}
 The likelihood parameter space is where we run our sampler, and these are the parameters 
@@ -124,7 +125,7 @@ $\Theta=\{ \Delta^2_\star, n_\star, \tau_0, \tau_1, T_1, T_2, T_3, \gamma_0, \ga
     \item $\Delta^2_\star$: which describes the amplitude of the linear power spectrum at 
     the pivot scale and redshift.
     \item $n_\star$: the slope of the power spectrum at the pivot scale and redshift,
-    \item  $\tau_0$ and $\tau_1$, which equivalently describe the amplitude and slope of $\langle F\rangle$ around $z=3$,
+    \item  $\tau_0$ and $\tau_1$, which equivalently describe the amplitude and slope of $\rm{ln}(\langle F\rangle)$ around $z=3$,
     \item  $T_1$, $T_2$, $T_3$ which describe the redshift evolution of the thermal 
     broadening scale, $\sigma_T$. The effect of He II reionisation on the IGM means that 
     a broken power law is required to describe the evolution of the gas temperature (see 
@@ -209,8 +210,11 @@ a larger number of redshift bins.
     \includegraphics[scale=0.47]{Figures/256_kF_Mpc.pdf}
     \includegraphics[scale=0.47]{Figures/256_gamma.pdf}
     \caption{Dependence of the P1D on the different emulator parameters. Predictions are 
-    made using a Gaussian process emulator trained on $\sim6000$ models. NB that we have not 
-    yet varied the slope ($n_p$) of the linear power spectrum in 
+    made using a Gaussian process emulator trained on $\sim6000$ models. We set each
+    emulator parameter to the median value of the training set, and vary each parameter
+    one at a time across the entire prior volume (note that this will result in some
+    unphysical combinations of certain parameters that are strongly correlated).
+    We have not yet varied the slope ($n_p$) of the linear power spectrum in 
     our simulation suites, so do not include it here as an emulated parameter.}
 \end{figure}
 
@@ -222,7 +226,9 @@ a larger number of redshift bins.
     \caption{The redshift evolution of three of the emulator nuisance parameters for a 
     randomly chosen simulation. In blue we show the measured redshift evolution in the 
     simulation, in orange we show the best fit model using the likelihood models 
-    described in section 2.2.}
+    described in section 2.2. The top panel shows the gas temperature at mean density
+    ($T_0 [K])$ as a function of redshift, with the spike at $z=3.6$ caused by He II
+    reionisation. This quantity is converted to the emulator parameter $\sigma_T$.}
 \end{figure}
 
 \section{Extensions and unit conversions}
@@ -243,7 +249,7 @@ perform the conversion into velocity units which can be compared with the data.
 For the final analysis it will be necessary to introduce some parameters to describe
 some deviation of $H(z)$ and the growth rate from the fiducial cosmology.
 While the universe is close to
-Einstein de Sitter in the redshfit range $5>z>2$, it is not a perfect description,
+Einstein-de-Sitter in the redshfit range $5>z>2$, it is not a perfect description,
 and there is a small variation in the growth rate depending on cosmology (on the order of
 $2\%$ over the range $0.4>\Omega_m > 0.2$ at $z=2$, which is where there is the highest
 sensitivity). This change in the growth rate affects the \lyaf through altering the
